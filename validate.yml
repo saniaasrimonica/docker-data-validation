@@ -1,0 +1,32 @@
+name: Validate dataset
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      DATASET_VERSION: "1.0.0"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test validation rules
+        run: python -m unittest discover -s tests -v
+      - name: Validate CSV
+        run: python validate.py
+      - name: Build image
+        run: docker build --build-arg DATASET_VERSION="$DATASET_VERSION" -t data-validator:ci .
+      - name: Run validation in container
+        run: docker run --rm data-validator:ci
+      - name: Confirm mismatched version blocks build
+        run: |
+          if docker build --build-arg DATASET_VERSION=invalid-version -t data-validator:invalid .; then
+            echo "ERROR: mismatched version unexpectedly built"
+            exit 1
+          fi

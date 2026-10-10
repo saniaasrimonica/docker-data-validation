@@ -1,0 +1,5 @@
+record_id,text,label,dataset_version
+1,The service was excellent,positive,1.0.0
+2,The response was disappointing,negative,1.0.0
+3,The package arrived today,neutral,1.0.0
+4,Support resolved my problem,positive,1.0.0
