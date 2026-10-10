@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "columns": [
+    "record_id",
+    "text",
+    "label",
+    "dataset_version"
+  ],
+  "allowed_labels": [
+    "positive",
+    "negative",
+    "neutral"
+  ],
+  "dataset_version": "1.0.0"
+}
